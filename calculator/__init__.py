@@ -1,4 +1,7 @@
-Number = int | float
+from typing import Any, Union, get_args
+
+
+Number = Union[int, float]
 
 
 class Calculator:
@@ -6,14 +9,14 @@ class Calculator:
     def __init__(self):
         self.expression = ""
 
-    def _ensure_is_digit(self, value: int | str):
+    def _ensure_is_digit(self, value: int | str) -> int:
         if isinstance(value, str):
             value = int(value)
         if value not in range(10):
-            raise ValueError("Value must a digit in [0, 9]: " + value)
+            raise ValueError("Value must a digit in [0, 9]: " + str(value))
         return value
 
-    def _append(self, value):
+    def _append(self, value: Any):
         self.expression += str(value)
     
     def digit(self, value: int | str):
@@ -41,7 +44,7 @@ class Calculator:
     def compute_result(self) -> Number:
         try:
             result = eval(self.expression)
-            if isinstance(result, Number):
+            if any(isinstance(result, type) for type in get_args(Number)):
                 self.expression = str(result)
                 return result
             else:
