@@ -37,9 +37,22 @@ class Calculator:
 
     def clear(self):
         self.expression = ""
+
+    def open_parenthesis(self):
+        self._append("(")
+    
+    def close_parenthesis(self):
+        self._append(")")
+    
+    def square_root(self):
+        self._append("sqrt")
+
+    def power(self):
+        self._append("**")
     
     def compute_result(self) -> Number:
         try:
+            from math import sqrt
             result = eval(self.expression)
             if isinstance(result, Number):
                 self.expression = str(result)
