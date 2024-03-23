@@ -82,5 +82,9 @@ class CalculatorApp(App):
         self.display.text = self._calc.expression or "0"
 
 
-if __name__ == '__main__':
+def start_app():
     CalculatorApp().run()
+
+
+if __name__ == '__main__':
+    start_app()

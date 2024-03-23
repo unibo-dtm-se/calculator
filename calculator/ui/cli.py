@@ -23,5 +23,9 @@ class CalculatorCLI:
             self._print(e)
 
 
-if __name__ == '__main__':
+def start_app():
     CalculatorCLI(sys.argv[1:]).run()
+
+
+if __name__ == '__main__':
+    start_app()
