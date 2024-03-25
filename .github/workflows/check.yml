@@ -49,4 +49,5 @@ jobs:
         run: poetry lock && poetry install
 
       - name: Test
+        shell: bash
         run: .venv/bin/python -m unittest discover -v -s tests
