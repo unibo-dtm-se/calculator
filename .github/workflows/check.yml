@@ -31,6 +31,11 @@ jobs:
       group: ${{ github.workflow }}-run-unit-tests-${{ matrix.python-version }}-${{ matrix.os }}-${{ github.event.number || github.ref }}
       cancel-in-progress: true
     steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
       - name: Install poetry
         run: pip install poetry
       
@@ -44,4 +49,4 @@ jobs:
         run: poetry lock && poetry install
 
       - name: Test
-        run: .venv/bin/python -m unittest discover -v -s tests -t .
+        run: .venv/bin/python -m unittest discover -v -s tests
