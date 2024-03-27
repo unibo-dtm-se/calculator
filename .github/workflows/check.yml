@@ -24,6 +24,7 @@ jobs:
         python-version:
           - '3.10'
           - '3.11'
+          - '3.12'
     runs-on: ${{ matrix.os }}
     name: Run tests on Python ${{ matrix.python-version }}, on ${{ matrix.os }}
     timeout-minutes: 45
@@ -42,14 +43,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Override Python version for Poetry
-        run: sed -i -e 's#^python\s*=.*$#python = "^${{ matrix.python-version }}"#g' pyproject.toml
+      # - name: Override Python version for Poetry
+      #   run: sed -i -e 's#^python\s*=.*$#python = "^${{ matrix.python-version }}"#g' pyproject.toml
 
       - name: Restore Python dependencies
         run: poetry lock && poetry install
 
       - name: Test
         shell: bash
-        run: |
-          poetry env use .venv/bin/python
-          python -m unittest discover -v -s tests
+        run: poetry run python -m unittest discover -v -s tests
