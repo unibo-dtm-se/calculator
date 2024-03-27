@@ -43,11 +43,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Override Python version for Poetry
-      #   run: sed -i -e 's#^python\s*=.*$#python = "^${{ matrix.python-version }}"#g' pyproject.toml
-
       - name: Restore Python dependencies
-        run: poetry lock && poetry install
+        run: poetry install
 
       - name: Test
         shell: bash
