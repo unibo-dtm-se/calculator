@@ -10,7 +10,7 @@ BUTTONS_NAMES = [
     ['4', '5', '6', '*'],
     ['1', '2', '3', '-'],
     ['.', '0', '=', '+'],
-    ['(', 'sqrt', '**', ')'],
+    ['(', '√', '**', ')'],
 ]
 
 
@@ -72,7 +72,7 @@ class CalculatorApp(App):
                 self._calc.open_parenthesis()
             case ")":
                 self._calc.close_parenthesis()
-            case "sqrt":
+            case "√":
                 self._calc.square_root()
                 self._calc.open_parenthesis()
             case "**":
