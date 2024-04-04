@@ -11,6 +11,7 @@ BUTTONS_NAMES = [
     ['1', '2', '3', '-'],
     ['.', '0', '=', '+'],
     ['(', '√', '**', ')'],
+    ['log'],
 ]
 
 
@@ -77,6 +78,9 @@ class CalculatorApp(App):
                 self._calc.open_parenthesis()
             case "**":
                 self._calc.power()
+            case "log":
+                self._calc.logarithm()
+                self._calc.open_parenthesis()
             case _:
                 self._calc.digit(button.text)
         self.display.text = self._calc.expression or "0"

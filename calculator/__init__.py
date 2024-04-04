@@ -49,6 +49,9 @@ class Calculator:
 
     def power(self):
         self._append("**")
+
+    def logarithm(self):
+        self._append("log")
     
     def compute_result(self) -> Number:
         try:
