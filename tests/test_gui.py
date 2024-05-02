@@ -65,7 +65,7 @@ class TestExpressions(CalculatorGUITestCase):
 
     def test_expression_with_pow(self):
         self.press_button("2")
-        self.press_button("**")
+        self.press_button("^")
         self.press_button("3")
         self.assert_display("2**3")
         self.press_button("=")
