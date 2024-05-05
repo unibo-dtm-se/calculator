@@ -67,8 +67,17 @@ jobs:
         shell: bash
         run: poetry run python bump_version.py --apply | tee CHANGELOG.md
 
+      - name: Commit version change
+        shell: bash
+        run: |
+          git add pyproject.toml
+          git commit -m "chore(release): v.$(poetry version --short) [skip ci]"
+
       - name: Build Python Package
         run: poetry build
+
+      - name: Push changes
+        run: git push
 
       - name: Publish on TestPyPI
         run: poetry publish --repository pypi-test --username __token__ --password ${{ secrets.TEST_PYPI_TOKEN }}
