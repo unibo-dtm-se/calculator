@@ -47,27 +47,27 @@ def all_commits_up_to_tag(repo: Repo, tag: TagReference = None) -> Iterable[Comm
 def comput_version_increment_from(commits: Iterable[Commit]) -> Tuple[VersionIncrement, int]:
     major_changes, minor_changes, patch_changes, dev_changes = 0, 0, 0, 0
     for index, commit in enumerate(commits):
-        log(f"{index + 1}. {commit.hexsha}: {commit.summary.strip()}")
+        log(f"{index + 1}. {commit.hexsha}: `{commit.summary.strip()}`")
         if 'BREAKING CHANGE:' in commit.message:
             major_changes += 1
-            log(f"   + major change: 'BREAKING CHANGE:' found in summary")
+            log(f"   + **major** change: `BREAKING CHANGE:` found in summary")
         if ':' not in commit.summary:
-            log(f"   + considered as dev change: commit message is not conventional")
+            log(f"   + considered as **dev** change: commit message is not conventional")
             major_changes += 1
         description = commit.summary.split(':')[0]
         if description.endswith('!'):
             major_changes += 1
-            log(f"   + major change: '!' found in description")
+            log(f"   + **major** change: `!` found in description")
         if description.startswith('feat'):
             minor_changes += 1
-            log(f"   + minor change: 'feat' found in description")
+            log(f"   + **minor** change: `feat` found in description")
         if description.startswith('fix'):
             patch_changes += 1
-            log(f"   + patch change: 'fix' found in description")
+            log(f"   + **patch** change: `fix` found in description")
         dev_changes += 1
-        log(f"   + dev change: commit is described as {description}")
+        log(f"   + `dev` change: commit is described as `{description}`")
     increment = version_increment(major_changes, minor_changes, patch_changes, dev_changes)
-    log(f"Total commits: {dev_changes}, of which:")
+    log(f"\nTotal commits: {dev_changes}, of which:")
     log(f"- {major_changes} major changes")
     log(f"- {minor_changes} minor changes")
     log(f"- {patch_changes} patch changes")
@@ -89,8 +89,8 @@ def update_version(increment: VersionIncrement, n_changes: int, apply: bool = Fa
         else increment.value
     args = ["version", "--short", target] + ([] if apply else ['--dry-run'])
     version = _poetry(*args)
-    log("hence, next version is: ", end='')
-    print(version)
+    log("hence, next version is: `", end='')
+    print(version + ('`' if LOGGING else ''))
     get_current_version.cache_clear()
             
 
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         LOGGING = "--silent" not in sys.argv
         last_tag = find_last_tag(repo)
         current_version = get_current_version()
-        log(f"From tag `{last_tag}` (corresponding to v`{current_version}`):")
+        log(f"From commit {last_tag.commit.hexsha} (corresponding to v`{current_version}`):")
         commits = all_commits_up_to_tag(repo, )
         version, n_changes = comput_version_increment_from(commits)
         actually_apply = "--apply" in sys.argv
