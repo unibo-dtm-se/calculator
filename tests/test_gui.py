@@ -2,8 +2,8 @@ import os ; os.environ["KIVY_NO_ARGS"] = "1" # hack for making tests loadable in
 import unittest
 
 
-if "CI" in os.environ:
-    raise unittest.SkipTest("Skipping GUI tests in CI environment")
+# if "CI" in os.environ:
+#     raise unittest.SkipTest("Skipping GUI tests in CI environment")
 
 
 from calculator.ui.gui import CalculatorApp
