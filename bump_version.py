@@ -1,5 +1,4 @@
 from enum import Enum
-from functools import lru_cache
 from git import Repo, TagReference, Commit
 import subprocess
 import sys
@@ -32,7 +31,7 @@ def version_increment(majors: int, minors: int, patches: int, dev: int) -> Versi
 
 
 def find_last_tag(repo: Repo) -> TagReference:
-    last_tag_name = repo.git.describe('--tags', '--abbrev=0')
+    last_tag_name = repo.git.describe('--tags', '--abbrev=0',  '--match', '*.*.*', '--exclude', '*-*')
     return repo.tags[last_tag_name]
 
 
@@ -78,20 +77,18 @@ def _poetry(*args):
     return subprocess.run([sys.executable, "-m", "poetry", *args], capture_output=True, text=True).stdout.strip()
 
 
-@lru_cache
 def get_current_version() -> str:
     return _poetry("version", "--short")
 
 
-def update_version(increment: VersionIncrement, n_changes: int, apply: bool = False):
-    target = f"{get_current_version()}-dev{n_changes}" \
+def update_version(from_version: str, increment: VersionIncrement, n_changes: int, apply: bool = False):
+    target = f"{from_version}-dev{n_changes}" \
         if increment == VersionIncrement.DEVELOPMENT \
         else increment.value
     args = ["version", "--short", target] + ([] if apply else ['--dry-run'])
     version = _poetry(*args)
     log("hence, next version is: `", end='')
     print(version + ('`' if LOGGING else ''))
-    get_current_version.cache_clear()
             
 
 if __name__ == '__main__':
@@ -99,8 +96,8 @@ if __name__ == '__main__':
         LOGGING = "--silent" not in sys.argv
         last_tag = find_last_tag(repo)
         current_version = get_current_version()
-        log(f"From commit {last_tag.commit.hexsha} (corresponding to v`{current_version}`):")
+        log(f"From commit {last_tag.commit.hexsha} (corresponding to v`{current_version}`, according to Poetry):")
         commits = all_commits_up_to_tag(repo, )
         version, n_changes = comput_version_increment_from(commits)
         actually_apply = "--apply" in sys.argv
-        update_version(version, n_changes, actually_apply)
+        update_version(last_tag.name, version, n_changes, actually_apply)
