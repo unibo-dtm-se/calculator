@@ -18,6 +18,7 @@ poetry = "^1.7.0"
 pytest = "^8.1.0"
 coverage = "^7.4.0"
 mypy = "^1.9.0"
+gitpython = "^3.1.43"
 
 [tool.poetry.scripts]
 calculator-gui = "calculator.ui.gui:start_app"
