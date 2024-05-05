@@ -65,12 +65,12 @@ def comput_version_increment_from(commits: Iterable[Commit]) -> Tuple[VersionInc
             patch_changes += 1
             log(f"   + **patch** change: `fix` found in description")
         dev_changes += 1
-        log(f"   + `dev` change: commit is described as `{description}`")
+        log(f"   + **dev** change: commit is described as `{description}`")
     increment = version_increment(major_changes, minor_changes, patch_changes, dev_changes)
     log(f"\nTotal commits: {dev_changes}, of which:")
     log(f"- {major_changes} major changes")
     log(f"- {minor_changes} minor changes")
-    log(f"- {patch_changes} patch changes")
+    log(f"- {patch_changes} patch changes\n")
     return increment, dev_changes
 
 
