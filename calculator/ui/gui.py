@@ -11,7 +11,7 @@ BUTTONS_NAMES = [
     ['1', '2', '3', '-'],
     ['.', '0', '=', '+'],
     ['(', '√', '^', ')'],
-    ['log'],
+    ['log', 'cos', 'sin'],
 ]
 
 
@@ -80,6 +80,12 @@ class CalculatorApp(App):
                 self._calc.power()
             case "log":
                 self._calc.logarithm()
+                self._calc.open_parenthesis()
+            case "cos":
+                self._calc.cos()
+                self._calc.open_parenthesis()
+            case "sin":
+                self._calc.sin()
                 self._calc.open_parenthesis()
             case _:
                 self._calc.digit(button.text)

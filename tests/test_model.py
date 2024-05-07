@@ -89,3 +89,26 @@ class TestComplexExpressions(unittest.TestCase):
         self.calculator.digit(3)
         self.assertEqual("(1+1)**3", self.calculator.expression)
         self.assertEqual(8, self.calculator.compute_result())
+
+    def test_cosine(self):
+        # cos(0) = 1
+        self.assertEqual("", self.calculator.expression)
+        self.calculator.cos()
+        self.calculator.open_parenthesis()
+        self.assertEqual("cos(", self.calculator.expression)
+        self.calculator.digit(0)
+        self.calculator.close_parenthesis()
+        self.assertEqual("cos(0)", self.calculator.expression)
+        self.assertEqual(1, self.calculator.compute_result())
+    
+    def test_sine(self):
+        # sin(0) = 0
+        self.assertEqual("", self.calculator.expression)
+        self.calculator.sin()
+        self.calculator.open_parenthesis()
+        self.assertEqual("sin(", self.calculator.expression)
+        self.calculator.digit(0)
+        self.calculator.close_parenthesis()
+        self.assertEqual("sin(0)", self.calculator.expression)
+        self.assertEqual(0, self.calculator.compute_result())
+    

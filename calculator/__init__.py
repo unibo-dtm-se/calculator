@@ -52,10 +52,16 @@ class Calculator:
 
     def logarithm(self):
         self._append("log")
+
+    def cos(self):
+        self._append("cos")
+
+    def sin(self):
+        self._append("sin")
     
     def compute_result(self) -> Number:
         try:
-            from math import sqrt
+            from math import sqrt, cos, sin
             result = eval(self.expression)
             if isinstance(result, Number):
                 self.expression = str(result)
