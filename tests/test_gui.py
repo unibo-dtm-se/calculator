@@ -70,4 +70,21 @@ class TestExpressions(CalculatorGUITestCase):
         self.assert_display("2**3")
         self.press_button("=")
         self.assert_display("8")
+
+    def test_expression_with_cos(self):
+        # cos(0) = 1
+        self.press_button("cos")
+        self.press_button("0")
+        self.press_button(")")
+        self.assert_display("cos(0)")
+        self.press_button("=")
+        self.assert_display("1")
     
+    def test_expression_with_sin(self):
+        # sin(0) = 0
+        self.press_button("sin")
+        self.press_button("0")
+        self.press_button(")")
+        self.assert_display("sin(0)")
+        self.press_button("=")
+        self.assert_display("0")
