@@ -3,7 +3,7 @@ name = "unibo-dtm-se-calculator"
 packages = [
     { include = "calculator" },
 ]
-version = "0.2.1-dev5"
+version = "0.3.0"
 description = "A simple calculator toolkit written in Python, with several UIs. It is part of the Software Engineering course at the University of Bologna."
 authors = ["Giovanni Ciatto <giovanni.ciatto@unibo.it>"]
 license = "Apache 2.0"
