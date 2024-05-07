@@ -78,7 +78,7 @@ class TestExpressions(CalculatorGUITestCase):
         self.press_button(")")
         self.assert_display("cos(0)")
         self.press_button("=")
-        self.assert_display("1")
+        self.assert_display("1.0")
     
     def test_expression_with_sin(self):
         # sin(0) = 0
@@ -87,4 +87,4 @@ class TestExpressions(CalculatorGUITestCase):
         self.press_button(")")
         self.assert_display("sin(0)")
         self.press_button("=")
-        self.assert_display("0")
+        self.assert_display("0.0")

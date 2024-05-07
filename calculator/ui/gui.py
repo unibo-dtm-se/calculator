@@ -83,8 +83,10 @@ class CalculatorApp(App):
                 self._calc.open_parenthesis()
             case "cos":
                 self._calc.cos()
+                self._calc.open_parenthesis()
             case "sin":
                 self._calc.sin()
+                self._calc.open_parenthesis()
             case _:
                 self._calc.digit(button.text)
         self.display.text = self._calc.expression or "0"
