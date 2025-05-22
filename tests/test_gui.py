@@ -88,3 +88,12 @@ class TestExpressions(CalculatorGUITestCase):
         self.assert_display("sin(0)")
         self.press_button("=")
         self.assert_display("0.0")
+
+    def test_expression_with_sinh(self):
+        # sinh(1) = 1.1752011936438014
+        self.press_button("sinh")
+        self.press_button("1")
+        self.press_button(")")
+        self.assert_display("sin(1)")
+        self.press_button("=")
+        self.assert_display("1.1752011936438014")
