@@ -112,3 +112,14 @@ class TestComplexExpressions(unittest.TestCase):
         self.assertEqual("sin(0)", self.calculator.expression)
         self.assertEqual(0, self.calculator.compute_result())
     
+    def test_sinh(self):
+        # sinh(1) = 1.1752011936438014
+        self.assertEqual("", self.calculator.expression)
+        self.calculator.sinh()
+        self.calculator.open_parenthesis()
+        self.assertEqual("sinh(", self.calculator.expression)
+        self.calculator.digit(1)
+        self.calculator.close_parenthesis()
+        self.assertEqual("sinh(1)", self.calculator.expression)
+        self.assertEqual(1.1752011936438014, self.calculator.compute_result())
+    
