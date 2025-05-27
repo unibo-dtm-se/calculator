@@ -18,11 +18,11 @@ class CalculatorGUITestCase(unittest.TestCase):
         self.app.find_button_by(button_text).trigger_action()
 
     def assert_display(self, value):
-        self.assertEqual(self.app.display.text, value)   
+        self.assertEqual(self.app.display.text, value)
 
     def tearDown(self):
         self.app.stop()
-    
+
 
 class TestExpressions(CalculatorGUITestCase):
     def test_integer_expression(self):
@@ -79,7 +79,7 @@ class TestExpressions(CalculatorGUITestCase):
         self.assert_display("cos(0)")
         self.press_button("=")
         self.assert_display("1.0")
-    
+
     def test_expression_with_sin(self):
         # sin(0) = 0
         self.press_button("sin")
@@ -94,6 +94,15 @@ class TestExpressions(CalculatorGUITestCase):
         self.press_button("sinh")
         self.press_button("1")
         self.press_button(")")
-        self.assert_display("sin(1)")
+        self.assert_display("sinh(1)")
         self.press_button("=")
         self.assert_display("1.1752011936438014")
+
+    def test_expression_with_cosh(self):
+        # cosh(1) = 1.5430806348152437
+        self.press_button("cosh")
+        self.press_button("1")
+        self.press_button(")")
+        self.assert_display("cosh(1)")
+        self.press_button("=")
+        self.assert_display("1.5430806348152437")

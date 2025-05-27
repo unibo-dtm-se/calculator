@@ -15,20 +15,20 @@ class Calculator:
 
     def _append(self, value):
         self.expression += str(value)
-    
+
     def digit(self, value: int | str):
         value = self._ensure_is_digit(value)
         self._append(value)
-    
+
     def plus(self):
         self._append("+")
 
     def minus(self):
         self._append("-")
-    
+
     def multiply(self):
         self._append("*")
-    
+
     def divide(self):
         self._append("/")
 
@@ -40,10 +40,10 @@ class Calculator:
 
     def open_parenthesis(self):
         self._append("(")
-    
+
     def close_parenthesis(self):
         self._append(")")
-    
+
     def square_root(self):
         self._append("sqrt")
 
@@ -58,11 +58,17 @@ class Calculator:
 
     def sin(self):
         self._append("sin")
-    
+
+    def cosh(self):
+        self._append("cosh")
+
+    def sinh(self):
+        self._append("sinh")
+
     def compute_result(self) -> Number:
         try:
-            from math import sqrt, cos, sin
-            result = eval(self.expression)
+            import math
+            result = eval(self.expression, math.__dict__)
             if isinstance(result, Number):
                 self.expression = str(result)
                 return result
