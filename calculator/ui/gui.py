@@ -12,6 +12,7 @@ BUTTONS_NAMES = [
     ['.', '0', '=', '+'],
     ['(', '√', '^', ')'],
     ['log', 'cos', 'sin'],
+    ['sinh', 'cosh'],
 ]
 
 
@@ -21,12 +22,12 @@ class CalculatorApp(App):
         if hasattr(container, 'children'):
             for child in container.children:
                 yield from self._browse_children(child)
-    
+
     def find_button_by(self, text) -> Button:
         for widget in self._browse_children(self.root):
             if isinstance(widget, Button) and widget.text == text:
                 return widget
-            
+
     def build(self):
         self._calc = Calculator()
 
@@ -86,6 +87,12 @@ class CalculatorApp(App):
                 self._calc.open_parenthesis()
             case "sin":
                 self._calc.sin()
+                self._calc.open_parenthesis()
+            case "cosh":
+                self._calc.cosh()
+                self._calc.open_parenthesis()
+            case "sinh":
+                self._calc.sinh()
                 self._calc.open_parenthesis()
             case _:
                 self._calc.digit(button.text)

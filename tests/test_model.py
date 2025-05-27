@@ -20,11 +20,11 @@ class TestCalculatorMethods(unittest.TestCase):
     def test_minus(self):
         self.calculator.minus()
         self.assertEqual("-", self.calculator.expression)
-    
+
     def test_multiply(self):
         self.calculator.multiply()
         self.assertEqual("*", self.calculator.expression)
-    
+
     def test_divide(self):
         self.calculator.divide()
         self.assertEqual("/", self.calculator.expression)
@@ -100,7 +100,7 @@ class TestComplexExpressions(unittest.TestCase):
         self.calculator.close_parenthesis()
         self.assertEqual("cos(0)", self.calculator.expression)
         self.assertEqual(1, self.calculator.compute_result())
-    
+
     def test_sine(self):
         # sin(0) = 0
         self.assertEqual("", self.calculator.expression)
@@ -111,4 +111,25 @@ class TestComplexExpressions(unittest.TestCase):
         self.calculator.close_parenthesis()
         self.assertEqual("sin(0)", self.calculator.expression)
         self.assertEqual(0, self.calculator.compute_result())
-    
+
+    def test_sinh(self):
+        # sinh(1) = 1.1752011936438014
+        self.assertEqual("", self.calculator.expression)
+        self.calculator.sinh()
+        self.calculator.open_parenthesis()
+        self.assertEqual("sinh(", self.calculator.expression)
+        self.calculator.digit(1)
+        self.calculator.close_parenthesis()
+        self.assertEqual("sinh(1)", self.calculator.expression)
+        self.assertEqual(1.1752011936438014, self.calculator.compute_result())
+
+    def test_cosh(self):
+        # cosh(1) = 1.5430806348152437
+        self.assertEqual("", self.calculator.expression)
+        self.calculator.cosh()
+        self.calculator.open_parenthesis()
+        self.assertEqual("cosh(", self.calculator.expression)
+        self.calculator.digit(1)
+        self.calculator.close_parenthesis()
+        self.assertEqual("cosh(1)", self.calculator.expression)
+        self.assertEqual(1.5430806348152437, self.calculator.compute_result())
