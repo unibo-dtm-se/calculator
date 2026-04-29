@@ -3,6 +3,7 @@ from git import Repo, TagReference, Commit
 import subprocess
 import sys
 from typing import Iterable, Tuple
+from dataclasses import dataclass
 
 
 LOGGING = True
@@ -18,6 +19,39 @@ class VersionIncrement(Enum):
     MINOR = 'minor'
     PATCH = 'patch'
     DEVELOPMENT = 'dev'
+
+
+@dataclass
+class Version:
+    major: int
+    minor: int
+    patch: int
+    dev: int | None = None
+
+    @staticmethod
+    def parse(version: str) -> 'Version':
+        if '.dev' in version:
+            main, dev = version.split('.dev')
+            dev = int(dev)
+        else:
+            main, dev = version, None
+        major, minor, patch = map(int, main.split('.'))
+        return Version(major, minor, patch, dev)
+    
+    def __str__(self):        
+        value = f"{self.major}.{self.minor}.{self.patch}"
+        if self.dev is not None:
+            value += f"-dev{self.dev}"
+        return value
+
+    def increment(self, increment: 'VersionIncrement') -> 'Version':
+        if increment == VersionIncrement.MAJOR:
+            return Version(self.major + 1, 0, 0)
+        if increment == VersionIncrement.MINOR:
+            return Version(self.major, self.minor + 1, 0)
+        if increment == VersionIncrement.PATCH:
+            return Version(self.major, self.minor, self.patch + 1)
+        return Version(self.major, self.minor, self.patch, (self.dev or 0) + 1)
 
 
 def version_increment(majors: int, minors: int, patches: int, dev: int) -> VersionIncrement:
@@ -82,10 +116,8 @@ def get_current_version() -> str:
 
 
 def update_version(from_version: str, increment: VersionIncrement, n_changes: int, apply: bool = False):
-    target = f"{from_version}-dev{n_changes}" \
-        if increment == VersionIncrement.DEVELOPMENT \
-        else increment.value
-    args = ["version", "--short", target] + ([] if apply else ['--dry-run'])
+    target = Version.parse(from_version).increment(increment)
+    args = ["version", "--short", str(target)] + ([] if apply else ['--dry-run'])
     version = _poetry(*args)
     log("hence, next version is: `", end='')
     print(version + ('`' if LOGGING else ''))
