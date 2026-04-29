@@ -10,7 +10,7 @@ class Calculator:
         if isinstance(value, str):
             value = int(value)
         if value not in range(10):
-            raise ValueError("Value must a digit in [0, 9]: " + value)
+            raise ValueError("Value must a digit in [0, 9]: " + str(value))
         return value
 
     def _append(self, value):
