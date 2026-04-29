@@ -24,11 +24,11 @@ poethepoet = "^0.44.0"
 [tool.poe.tasks]
 run-gui.script = "calculator.ui.gui:start_app"
 run-cli.script = "calculator.ui.cli:start_app"
+compile = "python -m compileall calculator tests"
 test = "python -m unittest discover -v -s tests/"
+test-coverage.shell = "coverage run -m unittest discover -v -s tests/ && coverage report -m"
+static-analysis = "mypy calculator/ tests/"
 
-[[tool.poetry.source]]
-name = "PyPI"
-priority = "primary"
 
 [build-system]
 requires = ["poetry-core"]
