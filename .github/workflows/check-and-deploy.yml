@@ -9,7 +9,7 @@ on:
   pull_request:
   workflow_dispatch:
 jobs:
-  test:
+  check:
     strategy:
       fail-fast: false
       matrix:
@@ -21,6 +21,8 @@ jobs:
           - '3.10'
           - '3.11'
           - '3.12'
+          - '3.13'
+          - '3.14'
     runs-on: ${{ matrix.os }}
     name: Test on Python ${{ matrix.python-version }}, on ${{ matrix.os }}
     timeout-minutes: 45
@@ -39,12 +41,20 @@ jobs:
       - name: Restore Python dependencies
         run: poetry install
 
-      - name: Test
-        shell: bash
-        run: poetry run python -m unittest discover -v -s tests
+      - name: Check code compiles
+        run: poetry run poe compile
+
+      - name: Check code style
+        run: poetry run poe lint
+
+      - name: Run tests
+        run: poetry run poe test
+
+      - name: Check test coverage
+        run: poetry run poe test-coverage
 
   release:
-    needs: test
+    needs: check
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     name: Release on PyPI and GitHub
@@ -64,7 +74,6 @@ jobs:
         run: poetry install
 
       - name: Bump version
-        shell: bash
         run: poetry run python bump_version.py --apply | tee CHANGELOG.md
 
       - name: Commit version change
@@ -74,12 +83,12 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"  
           git add pyproject.toml
           git commit -m "chore(release): v.$(poetry version --short) [skip ci]"
+      
+      - name: Push changes
+        run: git push
 
       - name: Build Python Package
         run: poetry build
-
-      - name: Push changes
-        run: git push
 
       - name: Publish on TestPyPI
         run: poetry publish --repository pypi-test --username __token__ --password ${{ secrets.TEST_PYPI_TOKEN }}

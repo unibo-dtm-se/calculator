@@ -27,7 +27,7 @@ run-cli.script = "calculator.ui.cli:start_app"
 compile = "python -m compileall calculator tests"
 test = "python -m unittest discover -v -s tests/"
 test-coverage.shell = "coverage run -m unittest discover -v -s tests/ && coverage report -m"
-static-analysis = "mypy calculator/ tests/"
+lint = "mypy calculator/ tests/"
 
 
 [build-system]
