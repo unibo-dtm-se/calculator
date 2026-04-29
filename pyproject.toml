@@ -12,7 +12,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">= 3.10.0, < 4.0.0"
 Kivy = "^2.3.0"
-poethepoet = "^0.44.0"
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^2.3.1"
@@ -20,6 +19,7 @@ pytest = "^8.1.0"
 coverage = "^7.4.0"
 mypy = "^1.9.0"
 gitpython = "^3.1.43"
+poethepoet = "^0.44.0"
 
 [tool.poe.tasks]
 run-gui.script = "calculator.ui.gui:start_app"
