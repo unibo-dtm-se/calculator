@@ -90,9 +90,6 @@ jobs:
       - name: Build Python Package
         run: poetry build
 
-      - name: Publish on TestPyPI
-        run: poetry publish --repository pypi-test --username __token__ --password ${{ secrets.TEST_PYPI_TOKEN }}
-
       - name: Create GitHub Release
         shell: bash
         run: |
@@ -100,3 +97,7 @@ jobs:
           gh release create $RELEASE_TAG dist/* -t v$RELEASE_TAG -F CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish on TestPyPI
+        run: poetry publish --repository pypi-test --username __token__ --password ${{ secrets.TEST_PYPI_TOKEN }}
+
