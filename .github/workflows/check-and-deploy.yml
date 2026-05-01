@@ -76,7 +76,18 @@ jobs:
       - name: Bump version
         run: poetry run python bump_version.py --apply | tee CHANGELOG.md
 
+      - name: Detect version change
+        id: version_change
+        shell: bash
+        run: |
+          if git diff --quiet -- pyproject.toml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Commit version change
+        if: steps.version_change.outputs.changed == 'true'
         shell: bash
         run: |
           git config user.name "${{ github.actor }}"
@@ -85,12 +96,15 @@ jobs:
           git commit -m "chore(release): v.$(poetry version --short) [skip ci]"
       
       - name: Push changes
+        if: steps.version_change.outputs.changed == 'true'
         run: git push
 
       - name: Build Python Package
+        if: steps.version_change.outputs.changed == 'true'
         run: poetry build
 
       - name: Create GitHub Release
+        if: steps.version_change.outputs.changed == 'true'
         shell: bash
         run: |
           RELEASE_TAG=$(poetry version --short)
@@ -99,5 +113,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish on TestPyPI
+        if: steps.version_change.outputs.changed == 'true'
         run: poetry publish --repository pypi-test --username __token__ --password ${{ secrets.TEST_PYPI_TOKEN }}
 
