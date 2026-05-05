@@ -10,9 +10,7 @@ BUTTONS_NAMES = [
     ['4', '5', '6', '*'],
     ['1', '2', '3', '-'],
     ['.', '0', '=', '+'],
-    ['(', '√', '^', ')'],
-    ['log', 'cos', 'sin'],
-    ['sinh', 'cosh'],
+    ['(',  ')'],
 ]
 
 
@@ -74,26 +72,6 @@ class CalculatorApp(App):
                 self._calc.open_parenthesis()
             case ")":
                 self._calc.close_parenthesis()
-            case "√":
-                self._calc.square_root()
-                self._calc.open_parenthesis()
-            case "^":
-                self._calc.power()
-            case "log":
-                self._calc.logarithm()
-                self._calc.open_parenthesis()
-            case "cos":
-                self._calc.cos()
-                self._calc.open_parenthesis()
-            case "sin":
-                self._calc.sin()
-                self._calc.open_parenthesis()
-            case "cosh":
-                self._calc.cosh()
-                self._calc.open_parenthesis()
-            case "sinh":
-                self._calc.sinh()
-                self._calc.open_parenthesis()
             case _:
                 self._calc.digit(button.text)
         self.display.text = self._calc.expression or "0"

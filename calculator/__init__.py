@@ -44,27 +44,6 @@ class Calculator:
     def close_parenthesis(self):
         self._append(")")
 
-    def square_root(self):
-        self._append("sqrt")
-
-    def power(self):
-        self._append("**")
-
-    def logarithm(self):
-        self._append("log")
-
-    def cos(self):
-        self._append("cos")
-
-    def sin(self):
-        self._append("sin")
-
-    def cosh(self):
-        self._append("cosh")
-
-    def sinh(self):
-        self._append("sinh")
-
     def compute_result(self) -> Number:
         try:
             import math
